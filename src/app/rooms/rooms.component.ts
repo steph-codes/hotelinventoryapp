@@ -1,13 +1,14 @@
-import { Component, DoCheck, OnInit } from '@angular/core';
+import { Component, DoCheck, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { Room, RoomList } from './rooms';
-import { OnChanges } from '@angular/core';
+import { HeaderComponent } from '../header/header.component';
 
 @Component({
   selector: 'hinv-rooms',
   templateUrl: './rooms.component.html',
   styleUrls: ['./rooms.component.scss'],
 })
-export class RoomsComponent implements OnInit, DoCheck {
+export class RoomsComponent implements OnInit, DoCheck, AfterViewInit {
+
   hotelName = 'Hilton Hotel';
 
   numberOfRooms = 10;
@@ -25,7 +26,10 @@ export class RoomsComponent implements OnInit, DoCheck {
   title = "Room List";
   roomList: RoomList[] = [];
 
+  @ViewChild(HeaderComponent) headerComponent! : HeaderComponent;
+
   ngOnInit(): void {
+    console.log(this.headerComponent);
     this.roomList = [
       {
         roomNumber: 23,
@@ -68,7 +72,15 @@ export class RoomsComponent implements OnInit, DoCheck {
   }
 
   ngDoCheck(){
+    console.log('on changes is called');
+  }
 
+  ngAfterViewInit(): void {
+    this.headerComponent.title ="Rooms View";
+    //console.log(this.headerComponent);
+  }
+  ngAfterViewChecked(){
+    this.headerComponent.title ="Rooms View";
   }
   selectRoom(room: RoomList) {
     this.selectedRoom = room;
